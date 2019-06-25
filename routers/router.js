@@ -1,13 +1,23 @@
 import Router from 'koa-router';
 import { getUserList, registry, login } from '../controllers/user';
-import { getTodoList } from '../controllers/todo';
+import {
+  getTodoList,
+  setTodoList
+} from '../controllers/todo';
 const router = new Router();
 
+
+// 注册接口
 router.post('/registry', registry);
 
+// 登录接口
 router.post('/login', login);
 
+// 获取todoList的数列
 router.get('/todo', getTodoList);
+
+// 添加todoList
+router.post('/getTodo', setTodoList)
 
 router.get('/user', async (ctx, next) => {
   await next();

@@ -45,8 +45,9 @@ export async function LoginDao(email, pass) {
   if (user.length == 0) {
     return Promise.reject('当前邮箱未注册');
   }
-  // 密码正确
-  if (user.pass == pass) {
-    return Promise.resolve();
+  // 密码正确 返回身份信息
+  if (user[0].pass === pass) {
+    return Promise.resolve(user[0])
   }
+  return Promise.reject('网络错误')
 }
