@@ -1,4 +1,10 @@
-import { getTodoListDao, setTodoListDao } from '../models/schema/list'
+import {
+  getTodoListDao,
+  setTodoListDao,
+  deleteTodoListDao,
+  findByIdTodoListDao
+} from '../models/schema/list'
+import { setCarryOutListDao } from '../models/schema/carryoutList'
 import jwt from 'jsonwebtoken'
 /**
  * 获取todo列表
@@ -10,6 +16,7 @@ export async function getTodoList(ctx, next) {
   let data = []
   list.forEach(res => {
     data.push({
+      id: res._id,
       code: res.code,
       priority: res.priority,
       sort: res.sort,
@@ -46,6 +53,38 @@ export async function setTodoList(ctx, next) {
   } catch (error) {
     ctx.body = {
       data: '保存失败' + error,
+      code: 2
+    }
+  }
+  await next()
+}
+
+/**
+ * 完成todo 并添加到完成表中
+ * @param {Koa} ctx
+ * @param {Next} next
+ */
+export async function carryOutTodo(ctx, next) {
+  const { id } = ctx.request.body
+  try {
+    // 查询单个数据数据
+    let data = await findByIdTodoListDao(id)
+    // 存储到完成表
+    console.log(data)
+    // 时间工具类
+    // 存储 
+    await setCarryOutListDao(data)
+    // 删除当前表信息
+    await deleteTodoListDao(id)
+    ctx.body = {
+      data,
+      code: 1
+    }
+  } catch (error) {
+    ctx.body = {
+      data: {
+        error
+      },
       code: 2
     }
   }

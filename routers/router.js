@@ -1,9 +1,6 @@
 import Router from 'koa-router';
 import { getUserList, registry, login } from '../controllers/user';
-import {
-  getTodoList,
-  setTodoList
-} from '../controllers/todo';
+import { getTodoList, setTodoList, carryOutTodo } from '../controllers/todo'
 const router = new Router();
 
 
@@ -18,6 +15,10 @@ router.get('/todo', getTodoList);
 
 // 添加todoList
 router.post('/getTodo', setTodoList)
+
+// 完成todoList
+router.post('/carryOutTodo',carryOutTodo)
+
 
 router.get('/user', async (ctx, next) => {
   await next();

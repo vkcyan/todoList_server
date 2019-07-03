@@ -8,7 +8,7 @@ export default function verification() {
     // console.log(user_token);
     try {
       let decode = jwt.verify(user_token, 'private');
-      console.log(decode,'中间件')
+      // console.log(decode,'中间件')
       await next();
     } catch (error) {
       console.log('登录态失效');
