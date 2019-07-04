@@ -44,3 +44,17 @@ export async function deleteTodoListDao(id) {
 export async function findByIdTodoListDao(id) {
   return await TodoList.findById(id)
 }
+
+/**
+ * 更新单个todo文字
+ * @param {string} id
+ * @param {string} title
+ */
+export async function updateByIdTitleDao(id, title) {
+  try {
+    let res = TodoList.findByIdAndUpdate(id, { $set: { title } })
+    return Promise.resolve(res)
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}

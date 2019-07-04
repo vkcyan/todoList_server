@@ -2,7 +2,8 @@ import {
   getTodoListDao,
   setTodoListDao,
   deleteTodoListDao,
-  findByIdTodoListDao
+  findByIdTodoListDao,
+  updateByIdTitleDao
 } from '../models/schema/list'
 import { setCarryOutListDao } from '../models/schema/carryoutList'
 import jwt from 'jsonwebtoken'
@@ -70,10 +71,13 @@ export async function carryOutTodo(ctx, next) {
     // 查询单个数据数据
     let data = await findByIdTodoListDao(id)
     // 存储到完成表
-    console.log(data)
-    // 时间工具类
-    // 存储 
-    await setCarryOutListDao(data)
+    let time = new Date(data.timer)
+    let carryTime = `${time.getFullYear()}-${time.getMonth() +
+      1}-${time.getDate()}`
+    // 深复制
+    let datas = JSON.parse(JSON.stringify(data))
+    datas.timer = carryTime
+    await setCarryOutListDao(datas)
     // 删除当前表信息
     await deleteTodoListDao(id)
     ctx.body = {
@@ -88,5 +92,17 @@ export async function carryOutTodo(ctx, next) {
       code: 2
     }
   }
+  await next()
+}
+
+/**
+ * 更新单个todo
+ * @param {Koa} ctx
+ * @param {Next} next
+ */
+export async function updateTitle(ctx, next) {
+  let { id, title } = ctx.request.body
+  console.log(id, title)
+  // await updateByIdTitleDao(id, title)
   await next()
 }
