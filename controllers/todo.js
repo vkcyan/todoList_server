@@ -101,8 +101,20 @@ export async function carryOutTodo(ctx, next) {
  * @param {Next} next
  */
 export async function updateTitle(ctx, next) {
-  let { id, title } = ctx.request.body
-  console.log(id, title)
-  // await updateByIdTitleDao(id, title)
+  try {
+    let { id, title } = ctx.request.body
+    await updateByIdTitleDao(id, title)
+    ctx.body = {
+      data: '成功',
+      code: 1
+    }
+  } catch (error) {
+    ctx.body = {
+      data: {
+        error
+      },
+      code: 2
+    }
+  }
   await next()
 }
