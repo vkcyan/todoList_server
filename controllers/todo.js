@@ -118,3 +118,16 @@ export async function updateTitle(ctx, next) {
   }
   await next()
 }
+
+/**
+ * 更新排序(暂时没好的想法)
+ * @param {Koa} ctx
+ * @param {Next} next
+ */
+export async function updateSort(ctx, next) {
+  try {
+    
+  } catch (error) {
+    
+  }
+}
