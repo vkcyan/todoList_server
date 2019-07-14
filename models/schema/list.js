@@ -1,12 +1,12 @@
-import { TodoList } from '../mongo/db'
-import { promises } from 'fs'
+import { TodoList } from '../mongo/db';
+import { promises } from 'fs';
 
 /**
  * 查询当前todo内部的所有数据
  */
-export async function getTodoListDao() {
-  let list = await TodoList.find({})
-  return list
+export async function getTodoListDao(code) {
+  let list = await TodoList.find({ code });
+  return list;
 }
 
 /**
@@ -20,8 +20,8 @@ export async function setTodoListDao(data) {
     timer: new Date().getTime(), // 时间戳
     sort: 1, // 排序
     priority: data.grade // 优先级
-  })
-  return res
+  });
+  return res;
 }
 
 /**
@@ -30,10 +30,10 @@ export async function setTodoListDao(data) {
  */
 export async function deleteTodoListDao(id) {
   try {
-    let res = await TodoList.deleteOne({ _id: id })
-    return Promise.resolve(res)
+    let res = await TodoList.deleteOne({ _id: id });
+    return Promise.resolve(res);
   } catch (error) {
-    return Promise.reject()
+    return Promise.reject();
   }
 }
 
@@ -42,7 +42,7 @@ export async function deleteTodoListDao(id) {
  * @param {String} id
  */
 export async function findByIdTodoListDao(id) {
-  return await TodoList.findById(id)
+  return await TodoList.findById(id);
 }
 
 /**
@@ -52,9 +52,9 @@ export async function findByIdTodoListDao(id) {
  */
 export async function updateByIdTitleDao(id, title) {
   try {
-    let res = TodoList.findByIdAndUpdate(id, { $set: { title } })
-    return Promise.resolve(res)
+    let res = TodoList.findByIdAndUpdate(id, { $set: { title } });
+    return Promise.resolve(res);
   } catch (error) {
-    return Promise.reject(error)
+    return Promise.reject(error);
   }
 }

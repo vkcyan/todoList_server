@@ -18,7 +18,7 @@ app.use(
 app.use(
   cors({
     origin: ctx => {
-      return 'http://localhost:8080';
+      return 'http://192.168.1.13:8080';
     },
     exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
     maxAge: 5,

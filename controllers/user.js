@@ -1,6 +1,6 @@
-import { getUserListDao, registryDao, LoginDao } from '../models/schema/user'
-import jwt from 'jsonwebtoken'
-import md5 from 'md5'
+import { getUserListDao, registryDao, LoginDao } from '../models/schema/user';
+import jwt from 'jsonwebtoken';
+import md5 from 'md5';
 
 /**
  *注册接口
@@ -10,15 +10,15 @@ import md5 from 'md5'
  * @param {Next} next
  */
 export async function registry(ctx, next) {
-  const { email, username, password } = ctx.request.body
-  let MD5password = md5(password)
+  const { email, username, password } = ctx.request.body;
+  let MD5password = md5(password);
   await registryDao(email, username, MD5password)
     .then(() => {
-      ctx.body = { code: 1 }
+      ctx.body = { code: 1 };
     })
     .catch(err => {
-      ctx.body = { code: 200, data: err }
-    })
+      ctx.body = { code: 200, data: err };
+    });
 }
 
 /**
@@ -27,25 +27,25 @@ export async function registry(ctx, next) {
  * @param {Next} next
  */
 export async function login(ctx, next) {
-  const { email, password } = ctx.request.body
-  await next()
-  let MD5password = await md5(password)
+  const { email, password } = ctx.request.body;
+  await next();
+  let MD5password = await md5(password);
   await LoginDao(email, MD5password)
-    .then((res) => {
-      console.log(res)
+    .then(res => {
+      console.log(res);
       // 登录 成功 生成token 返回状态码
       setToken(res._id)
         .then(token => {
-          console.log(token)
-          ctx.cookies.set('user_token', token)
+          console.log(token);
+          ctx.cookies.set('user_token', token);
         })
         .then(() => {
-          ctx.body = { code: 1 }
-        })
+          ctx.body = { code: 1 };
+        });
     })
     .catch(err => {
-      ctx.body = { code: 2, data: err }
-    })
+      ctx.body = { code: 2, data: err };
+    });
 }
 
 /**
@@ -54,7 +54,7 @@ export async function login(ctx, next) {
  * @returns
  */
 export async function getUserList() {
-  return await getUserListDao()
+  return await getUserListDao();
 }
 
 /**
@@ -71,7 +71,7 @@ function setToken(code) {
       {
         expiresIn: 60 * 60 // 1小时
       }
-    )
-    resolve(user_token)
-  })
+    );
+    resolve(user_token);
+  });
 }
