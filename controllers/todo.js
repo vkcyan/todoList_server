@@ -3,7 +3,8 @@ import {
   setTodoListDao,
   deleteTodoListDao,
   findByIdTodoListDao,
-  updateByIdTitleDao
+  updateByIdTitleDao,
+  updateByIdSortDao
 } from '../models/schema/list';
 import { setCarryOutListDao } from '../models/schema/carryoutList';
 import jwt from 'jsonwebtoken';
@@ -131,11 +132,24 @@ export async function updateTitle(ctx, next) {
 }
 
 /**
- * 更新排序(暂时没好的想法)
+ * 拖拽排序 => 获取更新位置的id 以及变化后的sort
+ * 保存当前的sort
  * @param {Koa} ctx
  * @param {Next} next
  */
-export async function updateSort(ctx, next) {
+export async function mobilTodo(ctx, next) {
   try {
-  } catch (error) {}
+    let { id, sort } = ctx.request.body;
+    let res = await updateByIdSortDao(id, sort);
+    ctx.body = {
+      data: res,
+      code: 1
+    };
+  } catch (error) {
+    ctx.body = {
+      data: error,
+      code: 2
+    };
+  }
+  await next();
 }

@@ -14,11 +14,12 @@ export async function getTodoListDao(code) {
  * @param {Object} data
  */
 export async function setTodoListDao(data) {
+  let list = await TodoList.find({ code: data.code });
   let res = await TodoList.create({
     code: data.code, // 用户标识
     title: data.title, // -todo内容
     timer: new Date().getTime(), // 时间戳
-    sort: 1, // 排序
+    sort: list.length, // 排序
     priority: data.grade // 优先级
   });
   return res;
@@ -57,4 +58,16 @@ export async function updateByIdTitleDao(id, title) {
   } catch (error) {
     return Promise.reject(error);
   }
+}
+
+/**
+ * 更新顺序
+ * @param {string} id
+ * @param {number} sort
+ */
+export async function updateByIdSortDao(id, sort) {
+  console.log(id, sort);
+  let oldSort = await TodoList.findById(id);
+  console.log('之前的' + oldSort.sort);
+  return Promise.resolve('排序没思路,不做');
 }
