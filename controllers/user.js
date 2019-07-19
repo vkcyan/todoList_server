@@ -28,7 +28,6 @@ export async function registry(ctx, next) {
  */
 export async function login(ctx, next) {
   const { email, password } = ctx.request.body;
-  await next();
   let MD5password = await md5(password);
   await LoginDao(email, MD5password)
     .then(res => {
@@ -74,4 +73,18 @@ function setToken(code) {
     );
     resolve(user_token);
   });
+}
+
+/**
+ * 登出控制器
+ * @param {*} ctx
+ * @param {*} next
+ */
+export async function loginout(ctx, next) {
+  await ctx.cookies.set('user_token', '');
+  ctx.body = {
+    code: 1,
+    data: '退出登录成功'
+  };
+  await next();
 }

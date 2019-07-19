@@ -17,7 +17,6 @@ export async function getTodoList(ctx, next) {
   try {
     const user_token = ctx.cookies.get('user_token');
     let decode = jwt.verify(user_token, 'private');
-    console.log(decode);
     let list = await getTodoListDao(decode.user);
     let data = [];
     list.forEach(res => {
@@ -69,7 +68,6 @@ export async function setTodoList(ctx, next) {
       code: 2
     };
   }
-  await next();
 }
 
 /**
@@ -104,7 +102,6 @@ export async function carryOutTodo(ctx, next) {
       code: 2
     };
   }
-  await next();
 }
 
 /**
@@ -128,7 +125,6 @@ export async function updateTitle(ctx, next) {
       code: 2
     };
   }
-  await next();
 }
 
 /**
@@ -151,5 +147,4 @@ export async function mobilTodo(ctx, next) {
       code: 2
     };
   }
-  await next();
 }

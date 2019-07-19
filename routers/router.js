@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import { getUserList, registry, login } from '../controllers/user';
+import { getUserList, registry, login, loginout } from '../controllers/user';
 import {
   getTodoList,
   setTodoList,
@@ -29,6 +29,9 @@ router.post('/updateTitle', updateTitle);
 
 // 拖拽修改接口
 router.post('/mobilTodo', mobilTodo);
+
+// 登出
+router.post('/loginout', loginout);
 
 router.get('/user', async (ctx, next) => {
   await next();
