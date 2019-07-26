@@ -68,7 +68,7 @@ function setToken(code) {
       },
       'private',
       {
-        expiresIn: 60 * 60 // 1小时
+        expiresIn: 60 * 60 * 24 *15 // 半个月
       }
     );
     resolve(user_token);

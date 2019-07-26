@@ -7,18 +7,9 @@ import session from 'koa-session2';
 import cors from 'koa2-cors';
 
 const app = new Koa();
-
-app.use(
-  session(
-    {
-      key: 'SESSIONID'
-    },
-    app
-  )
-);
 app.use(
   cors({
-    origin: ctx => {
+    origin: function(ctx) {
       return 'http://192.168.1.13:8080';
     },
     exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
@@ -28,7 +19,21 @@ app.use(
     allowHeaders: ['Content-Type', 'Authorization', 'Accept']
   })
 );
-// app.use(verification);
+
+// {
+//   origin: function(ctx) {
+//     ctx.set('Access-Control-Allow-Origin', '*');
+//     return '*';
+//   },
+//   exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+//   maxAge: 5,
+//   credentials: true,
+//   allowMethods: ['GET', 'POST', 'DELETE'],
+//   allowHeaders: ['Content-Type', 'Authorization', 'Accept']
+// }
+app.use(session({ key: 'SESSIONID' }, app));
+
+app.use(verification);
 //路由导航
 router.use('/*', async (ctx, next) => {
   try {
