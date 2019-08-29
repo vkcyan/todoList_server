@@ -1,7 +1,6 @@
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import router from './routers/router';
-import { verification } from './middleware/token';
 import jwt from 'jsonwebtoken';
 import session from 'koa-session2';
 import cors from 'koa2-cors';
@@ -32,8 +31,6 @@ app.use(
 //   allowHeaders: ['Content-Type', 'Authorization', 'Accept']
 // }
 app.use(session({ key: 'SESSIONID' }, app));
-
-app.use(verification);
 //路由导航
 router.use('/*', async (ctx, next) => {
   try {
@@ -41,7 +38,7 @@ router.use('/*', async (ctx, next) => {
     jwt.verify(user_token, 'private');
     await next();
   } catch (error) {
-    console.log('路由错误被拦截', error);
+    console.log('登录失效');
     ctx.body = {
       code: 202,
       data: '登录失效'

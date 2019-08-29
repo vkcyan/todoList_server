@@ -90,6 +90,7 @@ export async function carryOutTodo(ctx, next) {
     await setCarryOutListDao(datas);
     // 删除当前表信息
     await deleteTodoListDao(id);
+    console.log('完成任务', datas);
     ctx.body = {
       data,
       code: 1

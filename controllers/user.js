@@ -31,11 +31,11 @@ export async function login(ctx, next) {
   let MD5password = await md5(password);
   await LoginDao(email, MD5password)
     .then(res => {
+      console.log('登陆成功');
       console.log(res);
       // 登录 成功 生成token 返回状态码
       setToken(res._id)
         .then(token => {
-          console.log(token);
           ctx.cookies.set('user_token', token);
         })
         .then(() => {

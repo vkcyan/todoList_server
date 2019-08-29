@@ -36,9 +36,7 @@ router.post('/loginout', loginout);
 router.get('/user', async (ctx, next) => {
   await next();
   let data = await getUserList();
-  console.log(ctx.query); // 获取get参数
-  // ctx.session.vcode = '2301';
-  // console.log(ctx.session);
+  console.log('获取用户列表', ctx.query); // 获取get参数
   ctx.body = {
     data,
     code: 200
